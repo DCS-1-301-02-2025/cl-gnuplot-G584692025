@@ -8,14 +8,13 @@
 - 図の上に「力-たわみ」というタイトルが付いている．
 - 軸には，縦軸「力(kN)」，横軸「たわみ(m)」のラベルが付いている．
 - 図の右上に凡例が入っている．
-
 ![前半で作成したグラフがここに入る](force.png)
 
 ## 2. 関数のプロット
 
 次の「みほん」の図と同じようになるように gnuplotの記述を追記せよ.
 
-- 関数は $y = f1(x) =2x^2\sqrt{x}-5x^2$ と $\displaystyle y= f2(x) = \frac{x}{\log{x}}$ とする．
+- 関数は $y =f1(x) =2x^2\sqrt{x}-5x^2$ と $\displaystyle y= f2(x) = \frac{x}{\log{x}}$ とする．
 - xの範囲を $0 \leq x \leq 7$ に，yの範囲を $-20 \leq y \leq 15$にする．
 - グラフのタイトル，x軸のラベル，y軸のラベルを付ける．
 - 格子状の補助線を入れる．
@@ -25,6 +24,19 @@
 
 ```gnuplot {cmd=true output="html"}
 set terminal svg
+set xrange [0:7]
+set yrange [-20:15]
+set title "関数のプロット”
+set xlabel "x"
+set ylabel "y"
+plot 2*x**2*sqrt(x)-5*x**2 title "f1(x)", x/log(x) title "f2(x)"
+
+
+
+
+
+
+
 
 ```
 
@@ -46,12 +58,22 @@ set terminal svg
 set xdata time
 set timefmt '%Y/%m/%d'
 set xtics format "%m/%d"
+set datafile separator comma
+set grid
+set title "八王子の気温（過去１年間）"
+set xlabel "月日"
+set ylabel "温度"
+plot "weather2025.csv" using 1:2 w l t "最高気温","weather2025.csv" using 1:3 w l t "最高気温(平年)", "weather2025.csv" using 1:4 w l t "最低気温", "weather2025.csv" using 1:5 w l t "最低気温（平年）"
+
+
+
 
 ```
 
 ## 4． 誕生月
 
 次の「みほん」の図と同じようになるように gnuplotの記述を追記せよ.
+plot "weather2025.csv" using 1:2 w l t "最高気温”
 
 ![誕生日の月別人数のグラフ](birthMonth.png)
 
@@ -66,6 +88,12 @@ set xtics format "%m/%d"
 ```gnuplot {cmd=true, output="html"}
 set terminal svg
 unset key
-
+set style fill solid
+set boxwidth 0.6
+set grid
+set title "誕生日の月別人数"
+set yrange [0:16]
+set ylabel "人" offset graph 0,0.5 rotate by 0
+plot "bm.txt" using 1:2:xtic(1) with boxes linecolor "skyblue"
 
 ```
